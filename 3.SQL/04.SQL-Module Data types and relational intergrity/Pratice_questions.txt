@@ -1,0 +1,107 @@
+SELECT * FROM 360digitmg.employees;
+#1.Table creation : create a table named employees with columns for employee_Id(integer,primary key),employee_name(varchar 50characters),
+#designation(varchar 30characters),salary(decimal,10,2)
+CREATE table employees (
+employee_Id integer primary key,
+employee_name varchar(50) ,
+designation varchar(30),
+salary decimal(10,2)
+);
+desc employees;
+insert into employees(employee_Id,employee_name,designation,salary) values (1,'ramu','b.tech',10000);
+select * from employees;
+
+#2.Foriegn Key constraints
+#Q: Extend the employees table by adding the foreign key column named department_id(integer) that references the department_id column in a 
+# a table named department
+create table departments(
+department_id integer primary key,
+department_name varchar(50)
+);
+desc departments;
+#creating the foreign key in employee table with refrence to exists department table.
+
+ALTER table employees 
+ADD COLUMN  department_id int ,add foreign key (department_id) references departments (department_id);
+
+#3. Default values
+#Q: create a table named tasks with column task_id(integer,primary key) ,task_description(varchar 100 characters) and status(varchar 20characters
+#of default value 'Not Started')
+create table tasks (
+task_id integer primary key,
+task_description varchar(100),
+status varchar(20) default  'Not Started'
+);
+
+desc tasks;		
+
+#4. unique constraint
+#Q: Modify the tasks table to ensure that the combination of task_id and task_description is unique
+ALTER table tasks
+ADD CONSTRAINT task_idtask_description  UNIQUE(task_id , task_description);
+
+#5.check constraint
+#Q: create a table invoices with columns for invoice_id(integer,primary key),total_amount(decimal 10,2),payment_status(varchar 20 charcters) and that 
+# allow values 'paid' or 'unpaid' in payment_status
+create table invoices (
+invoice_id integer primary key,
+total_amount decimal(10,2),
+payment_status varchar(20),
+CHECK (payment_status IN ('paid', 'unpaid'))
+);
+desc invoices;
+insert into invoices(invoice_id,total_amount,payment_status) values (3,400,'paid1');
+select * from invoices;
+
+#6.Auto incrementing
+#Q:
+create table orders(
+order_id  int auto_increment,
+name varchar(10),
+primary key(order_id)
+);
+desc orders;
+
+alter table orders auto_increment=1001;
+
+alter table orders add constraint order_id primary key(order_id);
+
+-- alter table orders change column  name_1  name varchar(10);
+INSERT INTO orders (name) VALUES ('ramu'), ('priya1');
+-- truncate orders;
+select * from orders;
+truncate orders;
+#7. composite primary key
+#Q: Modify the orders details table to use a composite primary key consisting of the orders_number and product_code columns.
+
+SHOW COLUMNS FROM orders LIKE 'order_id';
+ALTER TABLE orders
+DROP PRIMARY KEY,
+DROP COLUMN order_id;
+
+-- Add the new columns and set them as the composite primary key
+ALTER TABLE orders
+ADD COLUMN orders_number INT,
+ADD COLUMN product_code INT,
+ADD PRIMARY KEY (orders_number, product_code);
+
+#8.UNIQUE constraint and multiple columns
+#Q: Ensure the combination of customer_id and country columns in the customer table is unique
+CREATE TABLE customer(
+customer_id int UNIQUE,
+country varchar(20) UNIQUE
+);
+desc customer;
+INSERT INTO customer(customer_id,country) VALUES(1,'IND'),(2,'USA');
+SELECT*FROM customer;
+INSERT INTO customer(customer_id,country) VALUES(3,' '),(4,'UK');
+
+#9Date column with defalut values
+#Q: Add a column named registration date to the customer table with the data type DATE and a default value of the current date.
+ALTER TABLE customer
+ADD COLUMN registration_date date default '2024-01-19';
+
+
+
+
+

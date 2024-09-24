@@ -1,0 +1,9 @@
+Links:
+1.PROCESS OF REGISTER FOR AWS FREE TIER ACCOUNT:
+https://drive.google.com/file/d/1W-GgXGABUUTEjQiIMnarVcR4LTKOXo_P/view?usp=sharing
+
+2.AWS Data Analytics
+https://docs.google.com/spreadsheets/d/1Qa-LCQ2yrKlyztbtq7xN5x_8R66_El9q6TWggLm8OGI/edit#gid=0
+
+3.Install and Configure AWS Kinesis Agent on Linux EC2:
+https://drive.google.com/file/d/1BbZ8ayILduaB_DCsJsR8aASrDIGyfUyr/view

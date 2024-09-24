@@ -1,0 +1,35 @@
+select * from employee;
+
+create table employee(
+first_name varchar(20) not null,
+mid_name varchar(20),
+last_name varchar(20) not null,
+age int not null,
+salary int not null,
+location varchar(20) not null default 'Hyderabad'
+)
+
+desc employee;
+
+insert into employee values ('rama','raja','roy',30,30000,'Hyderabad');
+create index idx_salary on employee(salary);
+select * from employee where salary = 30000;
+_______________________________________________________________________________
+
+create table product (product_name varchar(20), quantity int);
+
+insert into product values ('Chairs', 20), ('Tables', 5), ('Bookcases', 10), ('Storage', 25);
+
+select product_name, quantity, 
+case
+	when quantity > 10 then 'More than 10'
+	when quantity < 10 then 'less than 10'
+	else 'equal to 10'
+end as quantityText
+from product;
+
+
+
+
+
+

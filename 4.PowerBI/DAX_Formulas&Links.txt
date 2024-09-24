@@ -1,0 +1,117 @@
+AGGREGATIONS:
+
+1.Average profit:
+Average_profit = AVERAGE(Orders[Profit]) 
+a)sum of profit:
+sum of profit = SUM(Orders[Profit]) 
+
+b)Total profit:
+Total_profit = sum(Orders[Profit])
+
+c)profit margin:
+Profitmargin = (Orders[Revenue]-Orders[Cost])/Orders[Revenue]  
+2.Average sales:
+Avg_Sales = AVERAGE(Orders[Sales])
+
+a)sum of sales:
+sum_of_sales = SUM(Orders[Sales]) 
+
+b)Total sales:
+Total_Sales = SUM(Orders[Sales])
+c)Total sales measure:
+Total_sales_Measure = SUM(Orders[Sales])
+
+3.Cost:
+cost of the orders:
+Cost = Orders[Sales]*Orders[Quantity] 
+
+cost of goods sold (COGS):
+Cost = main_table[Quantity] * main_table[Profit]
+4.profit_ratio:
+Profit_ratio = SUM(Orders[Profit])/sum(Orders[Sales]) 
+
+4.Revenue:
+Revenue = Orders[Profit] * Orders[Sales]
+
+revenue = main_table[Sales] * main_table[cost]
+5.Quantity:
+sum_quantity = sum(Orders[Quantity])
+AVERAGEX:
+
+1.Average_sales_per_day_by_calc_method = AVERAGEX(VALUES(Orders[Order Date].[Quarter]),CALCULATE(SUM(Orders[Sales])))
+
+2.Average_sales_perday = AVERAGEX(VALUES(Orders[Order Date].[Day]),CALCULATE(SUM(Orders[Sales])))
+
+3.Average_sales_permonth = AVERAGEX(VALUES(Orders[Order Date].[Month]),CALCULATE(SUM(Orders[Sales])))
+
+4.Average_sales_perday_1 = AVERAGEX(VALUES(Sales_Amount[Date].[Day]), CALCULATE(SUM(Sales_Amount[Sales_Amount])))
+SUMX:
+1.Total_revenue_as_per_month = sumx(values(Orders[Order Date].[Month]),sum('Orders'[Revenue]))
+2.Trendy_aspermonthsales = SUMX(values(Orders[Order Date].[Month]),sum('Orders'[Quantity]))
+
+CALCULATE:
+
+1.Total_saledays = CALCULATE(sum(Orders[Sales]),FILTER(ALL(Orders),Orders[Order Date] <= EARLIER(Orders[Order Date].[Date])))
+
+2.salesaspermonth_quan = CALCULATE(sum(Orders[Sales]),ALL(Orders[Order Date].[Month]),Orders[Quantity])
+
+3.Sales Measure = 
+VAR TotalSales = CALCULATE(SUM(main_table[Sales]))
+RETURN
+DIVIDE(SUM(main_table[Sales]), TotalSales)
+
+4.Furniture_Sales = CALCULATE (SUM(ORDERS[Sales]),ORDERS[Category] = "Furniture")
+
+5.YTD = CALCULATE(SUM(Orders[Profit]),DatesQTD(Orders[Profits]))) similarly we can calculate the 
+YTD(),MTD(),QTD() and today() profits
+Format function:
+
+Week wise:
+daywise_1 = Format(Orders[Order Date],"dddd")
+
+week month date year wise:
+
+daywise_2 = Format(Orders[Order Date],"dddd,mmmmddyyyy")
+
+Fiscal days:
+fiscaldays = "Day" &FORMAT([Order Date],"Day") 
+
+Fiscal Date:
+fiscaledate = "Q"&FORMAT([Order Date],"Q")
+
+IF condition:
+
+1.Category:
+Category = IF(Employee[Age]<=18,"Junior",IF(Employee[Age]>18 && Employee[Age]>30,"Intermediate","Senior")) 
+
+2.As per Orders amount wise categorizing:
+
+Highvalue_and_Lowvalue = IF(Orders[Sales]>300,"High",IF(Orders[Sales]>100,"Medium","Low")) 
+
+
+3.Diffrence between the dates as per Daywise:
+no_of_days = DATEDIFF(Orders[Order Date],Orders[Ship Date],DAY) 
+
+4.status:
+Status = IF('Product'[Sales_amount]>1000,"High sales","Low Sales")
+
+5.status wise IF:
+status = IF('Orders (2)'[Sales] > 100, "High sales",
+            IF(AND('Orders (2)'[Sales] < 100, 'Orders (2)'[Sales] > 75), "Average sales",
+               IF('Orders (2)'[Sales] <= 25, "Low sales")))
+
+
+SWITCH Condition:
+
+1.switch_condition_status
+switch_condition_status = SWITCH(TRUE,Orders[Category]=="Office Supplies",1,Orders[Category]=="Technology",2,3)
+
+2.status
+status = SWITCH(TRUE,Prod_reve[Revenue]<800,"Low",Prod_reve[Revenue]>=800 && Prod_reve[Revenue]<=1000,"Medium","High")
+
+3.switch_status
+switch_status = SWITCH(TRUE(),'Product'[Sales_amount]>1000,"High",('Product'[Sales_amount]>500 && 'Product'[Sales_amount]<1000),"Medium","Low")
+
+===========================
+===========================
+
