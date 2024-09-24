@@ -1,0 +1,2 @@
+Adding new lines
+Now the file has more content!

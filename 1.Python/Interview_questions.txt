@@ -1,0 +1,74 @@
+Q1) How to capture deleted rows without trigger?
+
+-- Start a transaction
+START TRANSACTION;
+
+-- Create a temporary table to store the deleted rows
+CREATE TEMPORARY TABLE DeletedRows (
+    ID INT,
+    Col1 VARCHAR(255)
+);
+
+-- Insert the rows to be deleted into the DeletedRows table
+ INSERT INTO DeletedRows (ID, Col1)
+SELECT ID, Col1
+FROM MainTab
+WHERE ID = 1;
+-- It is used to update safe mode
+SET SQL_SAFE_UPDATES = 0;
+-- Delete the rows from the MainTab table
+DELETE FROM MainTab
+WHERE ID = 1;
+
+-- Commit the transaction
+COMMIT;
+
+-- Select the deleted rows from the DeletedRows table (optional)
+SELECT * FROM DeletedRows;
+
+Q2)How to combine the Time and Date in SQLSERVER ?
+
+-- Assuming you have a Date column named 'DateColumn' and a Time column named 'TimeColumn'
+SELECT CONVERT(VARCHAR, DateColumn, 101) + ' ' + CONVERT(VARCHAR, TimeColumn, 108) AS CombinedDateTime
+FROM YourTable;
+
+Q3)How to insert multiple values into multiple tables in a single statement?
+BEGIN TRANSACTION;
+
+INSERT INTO Table1 (Column1, Column2, ...)
+VALUES (Value1, Value2, ...);
+
+INSERT INTO Table2 (Column1, Column2, ...)
+VALUES (Value1, Value2, ...);
+
+COMMIT;
+
+
+Q4)Find all Tables containing specific column name?
+
+#sql query inmysql
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE COLUMN_NAME = 'departmentid' AND TABLE_SCHEMA = 'harsha'
+LIMIT 0, 1000;
+
+#sql query in postgres sql
+SELECT table_name
+FROM information_schema.columns
+WHERE column_name = 'your_column_name';
+
+Q5)How to get random records from tables?
+
+# sql query in my sql 
+
+SELECT * 
+FROM employee
+ORDER BY RAND() 
+LIMIT 10;
+
+# sql query in postgres
+
+SELECT * 
+FROM employee
+ORDER BY RANDOM() 
+LIMIT 10;
