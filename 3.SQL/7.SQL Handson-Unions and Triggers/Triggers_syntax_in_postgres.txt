@@ -1,0 +1,20 @@
+CREATE THE FUNCTION:
+
+> create function calc_tot_price()
+returns trigger
+as $$
+declare
+	total numeric;
+begin
+	total = new.sales * new.quantity;
+	new.total_price = total;
+	return new;
+end;
+$$ language plpgsql;
+
+CREATE THE TRIGGER
+> create trigger calc_tot_insert
+before insert
+on sales_data
+for each row
+execute procedure calc_tot_price();

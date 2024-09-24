@@ -1,0 +1,30 @@
+-- Pratice questions
+create table customer(
+customer_id INT PRIMARY KEY,
+customer_name VARCHAR(50),
+email VARCHAR(30),
+phonenumber varchar(10)
+);
+
+insert into customer(customer_id,customer_name,email,phonenumber) values(1,'John-Doe','john@example.com','555-1234'),(2,'Jane-smith','jane@example.com','555-5678'),(3,'Bob-johnson','bob@example.com','555-9876');
+select*from customer;
+create table orders(
+order_id INT PRIMARY KEY,
+customer_id int,
+order_date date,
+total_amount decimal(10,2),
+FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+);
+
+insert into orders(order_id,customer_id,order_date,total_amount) values(101,1,'2024-01-25',150.00),(102,2,'2024-01-26',200.50),(103,3,'2024-01-27',75.80);
+select*from orders;
+#1. Retrieve the all unique customer names from the customer table
+select * from customer
+union
+select * from orders;
+#2.combine the order details from the order table for customer id 1 with order details from the order table for customer id 2 using union all
+select * from orders where customer_id =1
+union all
+select * from customer where customer_id = 2;
+#3.retrieve the customer name by using the inner join.
+select c.customer_name from customer as c inner join orders as o where c.customer_id = o.customer_id;

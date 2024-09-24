@@ -1,0 +1,52 @@
+>create the trigger with out using functions in mysql of example BEFORE INSERT:
+
+DELIMITER $$
+CREATE TRIGGER  cal_tot_insert
+BEFORE INSERT ON sales_data1
+FOR EACH ROW
+BEGIN
+    SET NEW.total_price = NEW.sales * NEW.quantity;
+END $$
+DELIMITER ;   
+
+# with the example of AFTER INSERT
+create table student_info (
+stud_id int not null,
+stud_code varchar(20) default null,
+stud_name varchar(35) default null,
+subject varchar(25) default null,
+marks int default null,
+phone varchar(15) default null,
+primary key(stud_id)
+);
+
+#insert the values
+insert into student_info(stud_id,stud_code,stud_name,subject,marks,phone) 
+values(101,01,'shiv','maths',50,'966644582'),(102,02,'shivi','maths',50,966644582);
+select * from student_info;
+
+
+create table student_detail (
+stud_id int not null,
+stud_code varchar(20) default null,
+stud_name varchar(35) default null,
+subject varchar(25) default null,
+marks int default null,
+phone varchar(15) default null,
+Lasinserted time,
+primary key(stud_id)
+);
+select * from student_detail;
+#creating trigger
+DELIMITER $$
+CREATE TRIGGER after_insert_details
+AFTER INSERT ON student_info
+FOR EACH ROW
+BEGIN 
+	INSERT INTO student_detail 
+    VALUES (new.stud_id,new.stud_code,new.stud_name,new.subject,new.marks,new.phone,CURTIME());
+END $$
+DELIMITER ;
+
+insert into student_info(stud_id,stud_code,stud_name,subject,marks,phone) 
+values(103,03,'roy','maths1',50,'966677583'),(104,04,'tony','maths2',50,966677583); 

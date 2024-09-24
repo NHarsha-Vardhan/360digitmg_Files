@@ -1,0 +1,105 @@
+######################
+#operator 
+select first_name , mid_name,last_name from employee where salary >30000;
+#index
+index is special loocup table that spped up the data base search engine can use speed data retrieval.
+#opearors question 
+select * from employee where age <=30;
+#indexes question
+create index idx_last_name on employee(last_name);
+1.when we apply index at last_name it speed the retrieval 
+#operators question
+# write a query to update the salary of all employees by increasing it by 10%, Use the appropiate arthematic in your query
+UPDATE employee
+SET salary = salary * 1.10;
+###############################
+#subquery
+#1.write a sub query to find all employees (by there id) who work in the "HR" department.
+desc emp1;
+desc department;
+select * from emp1;
+select * from department;
+select id  from emp1
+where departmentId = (select id from department where name ='IT');
+
+#2.write a subquery to find department name where the employee with ID 102 is manager
+select name 
+from department
+where id =2;
+
+#3.write a sub query to find the total number of departments
+select count(*)
+from department;
+
+#4. Use a subquery to find the departments located in the same city as the "IT" department
+select location 
+from department
+where location = (select location from department where dept_name = 'IT');
+
+#5.write a subquery to find the department with highest number of employees 
+#(based on assumption that the number of employees is represented by the manager_id feild)
+select name 
+from department
+where id = (select id from department order by manager_id desc limit 1)
+
+#############################################################################
+Sub query
+################################################
+create table  employee(
+EmployeeID int , 
+Firstname varchar(20),
+Lastname varchar(20),
+Department varchar(20),
+Salary int
+);
+create table department (
+departmentid int,
+departmentname varchar(30)
+);
+
+insert into department(departmentid,departmentname) values(1,'sales'),(2,'sales'),(3,'IT'),(4,'HR');
+select * from department;
+desc employee;
+insert into employee (EmployeeID,Firstname,Lastname,Department,Salary) values(1,'John','Doe','sales',50000.00),(2,'Jane','smith','marketing',60000.00),(3,'Bob','Johnson','IT',55000.00),(4,'Alice','willams','HR',48000.00),(5,'charle','Brown','Sales',52000.00);
+select * from employee;
+
+#1.List employees in sales department along with thier salaries.
+select * from employee where Department = 'sales';
+#2.find the avg salary of all employees list the salary greater than its average
+select * from employee where salary > (Select avg(salary) from employee);
+
+#3.retrieve employee with the second-highest salary
+select * from employee where salary < (select max(salary) from employee) order by salary desc limit 2;
+
+#4. list the employees who have the salary greater than john doe
+select * from employee where salary >(select salary from employee where Firstname = 'John' and Lastname='Doe');
+
+############################################
+JOINS
+##################################
+
+#inner join find all the employees and their employees
+
+select distinct e.Firstname,e.Lastname,e.Department,e.Salary from employee as e
+inner join department as d on e.Department = d.departmentname;
+
+# list all the employees and their projects (if assigned to any).
+select distinct e.Firstname,e.Lastname,e.Department,e.Salary from employee as e
+left join department as d on e.Department = d.departmentname;
+
+#list all the departments and the number of employees in each department
+select d.departmentname , count(e.Firstname) as employee_count from employee as e 
+left join department as d 
+on e.Department = d.departmentname 
+group by e.Department;
+
+SELECT d.departmentname, COUNT(e.Firstname) AS employee_count
+FROM employee AS e
+LEFT JOIN department AS d ON e.Department = d.departmentname
+GROUP BY e.Department;
+
+#list all the departments and their assigned employees 
+select e.Department,e.Firstname,e.Lastname,d.departmentname from employee as e 
+right join department as d on e.Department = d.departmentname;
+
+
